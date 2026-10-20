@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Paywall Audit — Billdu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only dark;
+  /* ---- Billdu, extracted from their live paywall (dark mode) and onboarding ---- */
+  --bd-blue:#0024F2;          /* brand blue: splash, onboarding, logo tile */
+  --bd-cta:#0672FF;           /* price buttons */
+  --bd-link:#2A80FF;          /* "Show extra features", Help, X */
+  --bd-bg:#000000; --bd-card:#1A1A1C; --bd-ctl:#1C1C1E; --bd-ctl-on:#4A4A4E;
+  --bd-banner:#2D363F; --bd-bar:#026FFE;
+  --bd-ink:#FFFFFF; --bd-txt:#E9E9EB; --bd-muted:#8E8E93; --bd-line:#2C2C2E;
+  --bd-check:#B8734F; --bd-green:#1F8A47; --bd-save:#FEEFD2; --bd-red:#E0505A;
+  --r-ctl:30px; --r-media:24px;
+  /* ---- the report shell, in Billdu's own palette (their app runs dark) ---- */
+  --bg:#050506; --bg2:#121214; --surf:#141416;
+  --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --ink:#FFFFFF; --ink2:#B9BDC3; --ink3:#80858C;
+  --accent:#0672FF; --accent-lift:#5AA2FF;
+  --panel:#FFFFFF; --panel-ink:#111214; --panel-muted:#5F646B; --panel-line:#E8EAEE;
+  --accent-ink:#0057D9;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 16px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(5,5,6,.86);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 16px;gap:10px}}
+.nav-brand{display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:600;letter-spacing:-.01em;min-width:0}
+.nav-brand .adl{height:22px;width:auto;display:block;color:var(--ink);flex:none}
+.nav-brand .sep{width:1px;height:18px;background:var(--hair2);flex:none}
+.nav-brand span{color:var(--ink2);font-weight:500;white-space:nowrap}
+.nav-brand b{color:var(--ink);font-weight:600;white-space:nowrap}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#1E1E21;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.nav-rep{font-size:12.5px;font-weight:600;color:var(--accent-lift);text-decoration:none;white-space:nowrap;margin-left:8px}
+.nav-rep:hover{text-decoration:underline}
+@media(max-width:820px){.nav-brand span,.nav-brand .sep2{display:none}}
+@media(max-width:560px){.nav-brand b,.nav-brand .sep{display:none}.nav-brand .adl{height:18px}.nav-links button{padding:6px 7px;font-size:12.5px}.nav-rep{font-size:11.5px;margin-left:4px}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:96px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-360px;left:50%;transform:translateX(-50%);
+  width:1100px;height:680px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(0,36,242,.55),rgba(0,36,242,.12) 55%,transparent 75%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero-logo{display:inline-grid;place-items:center;width:96px;height:96px;border-radius:24px;background:var(--bd-blue);
+  box-shadow:0 18px 40px -14px rgba(0,36,242,.8);margin-bottom:22px}
+.hero-logo img{width:76px;height:auto;display:block}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:64px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:620px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:600}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 6px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(6,114,255,.2);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:700}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:700px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:660px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+/* scorecard */
+.sc{width:100%;border-collapse:collapse;margin-top:26px;font-size:14px}
+.sc th{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);text-align:left;
+  padding:0 14px 12px 0;border-bottom:1px solid var(--hair2)}
+.sc td{padding:16px 14px 16px 0;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.5;color:var(--ink2)}
+.sc td:first-child{color:var(--ink);font-weight:700;width:150px}
+.sc td:last-child{width:170px;padding-right:0}
+.sig{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:12px;white-space:nowrap}
+.sig.def{background:#26272B;color:#C8CBD0}
+.sig.opp{background:rgba(6,114,255,.18);color:#7DB5FF}
+.sig.mis{background:rgba(255,150,70,.16);color:#FFB27A}
+.sc .to{display:block;margin-top:7px;font-size:12px;font-weight:600;color:var(--accent-lift);text-decoration:none;cursor:pointer}
+.sc .src{color:var(--ink3);font-size:12px}
+.sc-cap{font-size:12.5px;color:var(--ink3);margin-top:16px;max-width:720px}
+@media(max-width:760px){
+  .sc thead{display:none}
+  .sc,.sc tbody,.sc tr,.sc td{display:block;width:100% !important}
+  .sc tr{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:16px 16px 14px;margin-bottom:12px}
+  .sc td{border:none;padding:4px 0}
+  .sc td:first-child{font-size:15.5px;padding-bottom:6px}
+  .sc td[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin-top:6px}
+  .sc td:last-child{padding-top:10px}
+}
+
+/* ideas */
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 190px;gap:26px;align-items:start;cursor:pointer;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.03)}
+@media(max-width:780px){.idea{grid-template-columns:34px 1fr;gap:14px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:560px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:4px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:4px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;line-height:1.4}
+.rchip{display:inline-flex;gap:8px;align-items:flex-start;margin-top:13px;padding:8px 12px;border-radius:12px;background:#111A2B;
+  border:1px solid rgba(6,114,255,.28);font-size:12.5px;line-height:1.45;color:#C9D6EA;text-decoration:none;max-width:560px}
+.rchip:hover{border-color:rgba(6,114,255,.6)}
+.rchip b{color:#fff;font-weight:700;white-space:nowrap}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:12.5px;font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 22px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div b small{font-size:15px;font-weight:600;color:var(--ink3);margin-right:4px;letter-spacing:0}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+
+.repcard{margin-top:28px;background:#fff;color:#0E0F11;border-radius:28px;padding:34px 40px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+@media(max-width:700px){.repcard{padding:26px 22px;gap:18px}}
+.repcard .k{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#6A6F76}
+.repcard h3{font-size:30px;font-weight:800;letter-spacing:-.035em;margin:6px 0 6px;line-height:1.1}
+.repcard p{font-size:15px;color:#454A51;margin:0}
+.repcard .adl{height:20px;width:auto;color:#0E0F11;display:block;margin-bottom:12px}
+.repcard .t{flex:1;min-width:240px}
+.repbtn{display:inline-flex;align-items:center;gap:8px;background:#0E0F11;color:#fff;font-size:14.5px;font-weight:700;padding:14px 22px;
+  border-radius:30px;text-decoration:none;white-space:nowrap}
+.repbtn:hover{background:#25272B}
+
+.cta-row{display:flex;justify-content:center;margin-top:52px;align-items:center;gap:22px;flex-wrap:wrap}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;
+  font-size:15px;font-weight:700;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.1)}
+.bigbtn svg{width:15px;height:15px}
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+.foot a{color:var(--ink2)}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:30px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #2E2F33,0 34px 80px -24px rgba(0,36,242,.45)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--bd-bg);color-scheme:only dark}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:600 15px/1 -apple-system,'SF Pro Text',sans-serif;color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.9);z-index:56;pointer-events:none}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--bd-bg)}
+
+/* ============ phone screens — Billdu's system, all prefixed scr-/bd- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bd-bg);color:var(--bd-ink);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:52px 14px 0;position:relative;z-index:3}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-foot{flex:none;padding:10px 14px 26px;position:relative;z-index:2}
+
+.bd-nav{display:flex;align-items:center;justify-content:space-between;height:46px;position:relative}
+.bd-x{width:44px;height:44px;border-radius:50%;background:var(--bd-ctl);display:grid;place-items:center;color:var(--bd-link);border:1px solid #2A2A2D;position:relative}
+.bd-x svg{width:20px;height:20px}
+.bd-title{position:absolute;left:50%;transform:translateX(-50%);font:800 16.5px/1 'Outfit',sans-serif;letter-spacing:.04em;color:var(--bd-ink);white-space:nowrap}
+.bd-help{height:44px;padding:0 15px;border-radius:22px;background:var(--bd-ctl);color:var(--bd-link);font-size:16px;font-weight:600;border:1px solid #2A2A2D}
+.bd-banner{position:relative;margin-top:10px;background:var(--bd-banner);border-left:3px solid var(--bd-bar);padding:9px 14px 9px 13px;
+  font-size:14px;line-height:1.3;color:var(--bd-ink);display:flex;align-items:center;gap:8px}
+.bd-banner .st{color:#FFC93D;letter-spacing:1px;font-size:13px}
+.bd-banner b{font-weight:700}
+.bd-banner.pv-b{padding-right:40px}
+
+.bd-ph{font:800 22px/1.15 'Outfit',sans-serif;letter-spacing:-.005em;text-align:center;color:var(--bd-ink);margin:16px 26px 0;position:relative}
+.bd-trial{position:relative;margin:12px 22px 0;background:var(--bd-card);border-radius:16px;padding:10px 14px 11px}
+.bd-trial .r{white-space:nowrap;padding-right:6px;display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;color:var(--bd-txt)}
+.bd-trial .r b{font-weight:700;color:var(--bd-ink)}
+.bd-trial .r span{color:var(--bd-muted);white-space:nowrap}
+.bd-trial .bar{height:6px;border-radius:3px;background:#2E2E31;margin-top:8px;overflow:hidden}
+.bd-trial .bar i{display:block;height:100%;border-radius:3px;background:var(--bd-cta)}
+
+.bd-tog{position:relative;display:flex;margin:18px 22px 0;background:var(--bd-ctl);border:1px solid #232326;border-radius:20px;padding:3px}
+.bd-tog button{flex:1;height:30px;border-radius:16px;font-size:14.5px;color:var(--bd-ink);transition:background .2s}
+.bd-tog button.on{background:var(--bd-ctl-on)}
+.bd-saveup{height:24px;margin-top:4px;position:relative;font:700 13px/24px 'Outfit',sans-serif;color:var(--bd-red);padding-left:120px}
+.bd-saveup svg{position:absolute;left:220px;top:-6px;width:54px;height:26px}
+.bd-saveup.off{visibility:hidden}
+.scr--pay.var-b .bd-saveup{height:18px}
+
+.bd-car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 27px 4px;scrollbar-width:none;margin-top:4px}
+.bd-car::-webkit-scrollbar{display:none}
+.bd-card{position:relative;flex:none;width:314px;scroll-snap-align:center;background:var(--bd-card);border-radius:var(--r-media);
+  padding:20px 22px 20px;overflow:hidden;text-align:left}
+.bd-card .ill{display:block;width:84px;height:84px;margin:0 auto}
+.bd-card h4{font:800 30px/1 'Outfit',sans-serif;letter-spacing:-.01em;text-align:center;color:var(--bd-ink);margin:14px 0 16px}
+.bd-feats{display:flex;flex-direction:column;gap:9px;padding-left:4px}
+.bd-f{display:flex;gap:10px;font-size:15px;line-height:1.28;color:var(--bd-txt)}
+.bd-f svg{width:18px;height:18px;flex:none;margin-top:1px;stroke:var(--bd-check);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bd-more{display:flex;align-items:center;gap:6px;margin:12px 0 0 32px;color:var(--bd-link);font-size:16px;font-weight:600}
+.bd-more svg{width:12px;height:12px}
+.bd-buy{display:block;width:100%;margin-top:22px;background:var(--bd-cta);border-radius:var(--r-ctl);padding:10px 22px 11px;text-align:left;color:#fff;min-height:62px;transition:filter .15s}
+.bd-buy:active{filter:brightness(.9)}
+.bd-buy .l1{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.005em}
+.bd-buy .l2{white-space:nowrap;display:flex;align-items:center;gap:8px;font-size:15px;margin-top:2px}
+.bd-buy .sv{background:var(--bd-save);color:#000;font-weight:700;font-size:14px;padding:1px 8px;border-radius:8px;border:1px solid #F3DDB1}
+.bd-rib{position:absolute;top:22px;right:-38px;width:150px;transform:rotate(38deg);background:var(--bd-green);color:#EBFFF4;
+  font:800 12px/24px 'Outfit',sans-serif;letter-spacing:.06em;text-align:center}
+.bd-cancel{position:relative;font-size:12.5px;color:var(--bd-muted);text-align:center;margin-top:9px}
+.bd-dots{display:flex;gap:7px;justify-content:center;margin-top:12px}
+.bd-dots i{width:8px;height:8px;border-radius:50%;background:#48484C;transition:.2s;cursor:pointer}
+.bd-dots i.on{background:var(--bd-cta)}
+.bd-revs{position:relative;margin:16px 22px 0;background:var(--bd-card);border-radius:16px;padding:13px 15px}
+.bd-revs .st{color:#FFC93D;font-size:12px;letter-spacing:1.5px}
+.bd-revs p{font-size:14px;line-height:1.42;color:var(--bd-txt);margin-top:4px;min-height:40px}
+.bd-revs small{display:block;font-size:12px;color:var(--bd-muted);margin-top:4px}
+.bd-legal{font-size:12.5px;line-height:1.45;color:var(--bd-muted);text-align:center;margin:18px 22px 0}
+.bd-links{display:flex;flex-direction:column;align-items:center;gap:8px;margin:14px 0 30px}
+.bd-links a{font-size:12.5px;color:var(--bd-muted);text-decoration:underline}
+
+/* proposed-only / today-only bits */
+.scr--pay.var-a .pv-b{display:none !important}
+.scr--pay.var-b .pv-a{display:none !important}
+.scr--pay.var-b .bd-card .ill{width:64px;height:64px}
+.scr--pay.var-b .bd-card h4{font-size:27px;margin:10px 0 13px}
+.scr--pay.var-b .bd-buy{margin-top:16px}
+.scr--pay.var-b .bd-more{margin-top:9px}
+
+/* subscription page (today, after X) */
+.bd-sbox{background:var(--bd-card);border-radius:12px;margin:14px 8px 0;padding:12px 12px}
+.bd-sbox small{display:block;font-size:11px;letter-spacing:.04em;color:var(--bd-muted);text-transform:uppercase}
+.bd-sbox .v{font-size:14.5px;color:var(--bd-ink);margin-top:4px;display:flex;justify-content:space-between;align-items:center}
+.bd-sbox .two{display:grid;grid-template-columns:1fr 1fr}
+.bd-sbox svg{width:14px;height:14px;color:var(--bd-muted)}
+.bd-back{width:44px;height:44px;border-radius:50%;background:var(--bd-ctl);display:grid;place-items:center;color:var(--bd-link);border:1px solid #2A2A2D}
+.bd-back svg{width:20px;height:20px}
+.bd-sub{display:block;width:100%;height:50px;border-radius:25px;background:var(--bd-cta);color:#fff;font-size:16px;font-weight:600}
+.scr--subs .scr-foot{background:#111113;padding-top:14px}
+
+/* offer sheet */
+.scr--offer{background:var(--bd-bg)}
+.scr--offer .scr-top{padding-top:52px}
+.bd-oh{font:800 27px/1.1 'Outfit',sans-serif;text-align:center;color:var(--bd-ink);margin:8px 24px 0}
+.bd-os{font-size:16px;line-height:1.4;color:var(--bd-txt);text-align:center;margin:8px 30px 0}
+.bd-os b{color:var(--bd-ink)}
+.scr--offer .bd-card{width:auto;margin:18px 22px 0}
+.bd-otrial{font-size:13px;color:var(--bd-muted);text-align:center;margin:14px 30px 0;line-height:1.4}
+.bd-ghost{display:block;width:100%;height:44px;font-size:15.5px;font-weight:600;color:var(--bd-link)}
+
+/* toast for the purchase tap */
+.bd-toast{position:absolute;left:50%;bottom:70px;transform:translate(-50%,20px);background:rgba(44,44,46,.96);color:#fff;font-size:13.5px;
+  padding:10px 16px;border-radius:14px;z-index:85;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+.bd-toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* report pins */
+.pin{position:absolute;z-index:6;width:22px;height:22px;border-radius:50%;background:#FFD43B;color:#14161A;
+  font:800 11.5px/22px 'Plus Jakarta Sans',sans-serif;text-align:center;box-shadow:0 0 0 3px rgba(255,212,59,.28),0 3px 8px rgba(0,0,0,.4);cursor:pointer;padding:0}
+.pin:hover{transform:scale(1.08)}
+.pin.pin-in{position:relative;display:inline-block;vertical-align:middle;margin:-3px 0 0 6px;width:20px;height:20px;line-height:20px;font-size:10.5px}
+.nopins .pin{display:none}
+.scr--pay.var-a .pin{display:none}
+.phone-in.demo .pin{display:none}
+.phone-in.demo .pin.hl{display:block;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(255,212,59,.18),0 3px 8px rgba(0,0,0,.4)}}
+.pop{position:absolute;z-index:88;width:250px;background:#fff;color:#14161A;border-radius:14px;padding:13px 14px 12px;
+  box-shadow:0 14px 34px rgba(0,0,0,.45);font-family:'Plus Jakarta Sans',sans-serif;display:none}
+.pop.on{display:block}
+.pop .k{font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#0057D9}
+.pop p{font-size:13px;line-height:1.45;margin-top:5px;color:#1F2226}
+.pop small{display:block;font-size:11px;color:#6A6F76;margin-top:7px}
+.pop a{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:#0057D9;text-decoration:none}
+
+/* light mode — an approximation: only dark frames were supplied */
+.phone-in.light{--bd-bg:#F2F2F7;--bd-card:#FFFFFF;--bd-ctl:#FFFFFF;--bd-ctl-on:#FFFFFF;--bd-banner:#E4E9EF;--bd-ink:#000000;--bd-txt:#2C2C2E;
+  --bd-muted:#6C6C70;--bd-line:#E0E0E5;--bd-link:#0A6BFF;background:var(--bd-bg);color-scheme:only light}
+.phone-in.light .screenwrap{background:var(--bd-bg)}
+.phone-in.light .bd-x,.phone-in.light .bd-help,.phone-in.light .bd-back{border-color:#E2E2E7;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.phone-in.light .bd-tog{background:#E3E3E8;border-color:#E3E3E8}
+.phone-in.light .bd-tog button.on{box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.phone-in.light .bd-card,.phone-in.light .bd-trial,.phone-in.light .bd-revs,.phone-in.light .bd-sbox{box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.phone-in.light .bd-trial .bar{background:#E5E5EA}
+.phone-in.light .bd-dots i{background:#C7C7CC}
+.phone-in.light .bd-dots i.on{background:var(--bd-cta)}
+.phone-in.light .bd-card .ill{filter:invert(1) hue-rotate(180deg)}
+.phone-in.light .scr--subs .scr-foot{background:#FFFFFF}
+.phone-in.light .sbar{color:#000}
+.phone-in.light .homebar{background:#111}
+
+/* prototype toolbar, walkthrough, QR — shell styling */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px}
+.seg{display:inline-flex;align-items:center;background:#141416;border:1px solid #2A2B2F;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);transition:.14s}
+.seg button.on{background:#fff;color:#0E0F11}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:#fff;font:700 12px/1 'Plus Jakarta Sans',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border-radius:16px;padding:14px 14px 12px;color:#0E0F11;
+  display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#EEF0F1}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;margin:0;font-weight:500}
+.demo-cap button{font:700 12px/1 'Plus Jakarta Sans',sans-serif;color:#3A3F45;padding:7px 10px;border-radius:12px;border:1px solid #E1E4E6;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.28);
+  border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.35);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(255,255,255,.45)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;color:#0E0F11;border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:123px;height:123px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:#454A51}
+.qr b{display:block;color:#0E0F11;font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #2A2B2F;background:#141416;font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#44464C}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .chiphint{order:4} #view-proto .qr{order:5}
+.cta-row .qr{order:2}
+
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:10px}
+  #view-proto .scr-foot{padding-bottom:16px}
+  #view-proto .bd-card{width:calc(100vw - 54px)}
+  #view-proto .scr--offer .bd-card{width:auto}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5}
+}
+
+/* overview: walkthrough button */
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#141416;border:1px solid var(--hair2);color:var(--ink);font-size:14px;
+  font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;transition:.16s}
+.ghostbtn:hover{border-color:rgba(255,255,255,.3)}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-t.sm{font-size:19px}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E353B;margin:14px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-rep{display:flex;gap:8px;margin-top:12px;padding:9px 12px;border-radius:12px;background:#F1F6FF;border:1px solid #D6E5FF;
+  font-size:12.5px;line-height:1.45;color:#28303A;text-decoration:none}
+.pn-rep b{font-weight:700;color:#0E1A2E;white-space:nowrap}
+.pn-out{margin-top:18px;border-top:1px solid var(--panel-line);padding-top:16px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E353B;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:24px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <svg class="adl" role="img" aria-label="Adapty" viewBox="0 0 197 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M34 0C25.1667 0 18 4.16667 18 13V40C26.8333 40 34 32.8333 34 24V0ZM0 24C0 32.8333 7.16667 40 16 40V8C7.16667 8 0 15.1667 0 24ZM84.76 40.7876C83.9266 40.7876 83.0623 40.695 82.1671 40.5405C79.1421 39.9537 76.6109 38.4093 74.6971 35.9382C70.6842 30.8108 71.1472 23.4595 75.7774 18.888C78.1851 16.5097 81.5498 15.1815 84.9761 15.2432C87.7851 15.305 90.4089 16.3243 92.5388 18.1158V4H97.4776V40.2934H92.5696V37.8224C90.2237 39.7992 87.5999 40.7876 84.76 40.7876ZM84.7291 20.3398C82.5993 20.3398 80.6237 21.1429 79.1421 22.6255C77.6913 24.0463 76.8887 25.9614 76.8887 27.9691C76.8887 30.0077 77.6604 31.8919 79.1112 33.3436C80.5928 34.8263 82.5684 35.6602 84.7291 35.6602C89.0198 35.6602 92.5079 32.2317 92.5079 28.0309C92.5387 23.8301 89.0507 20.3707 84.76 20.3398H84.7291ZM132.846 52H127.938V15.7066H132.846V18.0849C135.593 15.7066 138.557 15.2124 140.686 15.2432C144.298 15.2741 147.91 16.8494 150.132 19.3514C154.423 24.2008 154.546 31.4595 150.441 36.2471C148.033 39.0579 144.946 40.5714 141.273 40.7568C138.124 40.9112 135.315 39.9228 132.877 37.8224V52H132.846ZM140.686 20.3398C138.557 20.3398 136.55 21.1737 135.068 22.6564C133.648 24.1081 132.846 25.9923 132.846 28C132.846 32.2625 136.272 35.6293 140.625 35.6602C142.755 35.6911 144.73 34.8571 146.212 33.4054C147.663 31.9537 148.465 30.0386 148.465 28C148.465 23.7683 144.977 20.3398 140.686 20.3398ZM48.4162 37.6371C50.7313 39.6757 53.6946 40.7259 56.6271 40.7259C58.5718 40.7259 60.5164 40.2626 62.2759 39.2741C63.0785 38.8108 63.8502 38.2548 64.5601 37.6988V40.2934H69.5916V36.5251V28.0309C69.5608 26.0541 69.2212 24.3243 68.4804 22.749C65.9801 17.4054 60.7943 14.5637 54.9293 15.305C49.1879 16.0154 44.4033 21.0811 44.0329 26.7954C43.7551 31.2124 45.2368 34.8571 48.4162 37.6371ZM56.7505 20.1236C54.6515 20.1236 52.7068 20.9266 51.2252 22.4093C49.7435 23.8919 48.9409 25.8378 48.9409 27.9382C48.9409 32.3243 52.3982 35.7529 56.7814 35.7529C61.0721 35.7529 64.5602 32.2626 64.5602 27.9382C64.5602 23.6448 61.0721 20.1544 56.7505 20.1236ZM112.217 40.7259C109.285 40.7259 106.321 39.6757 104.006 37.6371C100.827 34.8571 99.3451 31.2124 99.6229 26.7954C99.9933 21.0811 104.778 16.0154 110.519 15.305C116.384 14.5637 121.57 17.4054 124.07 22.749C124.811 24.3243 125.151 26.0541 125.182 28.0309V36.5251V40.2934H120.15V37.6988C119.44 38.2548 118.668 38.8108 117.866 39.2741C116.106 40.2626 114.162 40.7259 112.217 40.7259ZM106.815 22.4093C108.297 20.9266 110.242 20.1236 112.341 20.1236C116.662 20.1544 120.15 23.6448 120.15 27.9382C120.15 32.2626 116.662 35.7529 112.371 35.7529C107.988 35.7529 104.531 32.3243 104.531 27.9382C104.531 25.8378 105.334 23.8919 106.815 22.4093ZM172.289 52H172.536H172.628C172.721 51.9691 172.814 51.9691 172.906 51.9691C173.019 51.9588 173.133 51.952 173.246 51.9451C173.472 51.9314 173.698 51.9176 173.925 51.8765C178.185 51.166 181.364 48.8185 183.309 44.8649L196.798 17.6834L192.322 15.4286L183.926 32.3243L175.468 15.4286L171.023 17.5907L171.394 18.3938C171.424 18.471 171.463 18.5483 171.502 18.6255C171.54 18.7027 171.579 18.7799 171.61 18.8571L172.937 21.5135C174.073 23.7743 175.221 26.0747 176.375 28.3881L176.375 28.3882L176.375 28.3888C177.917 31.4799 179.471 34.5941 181.024 37.668C181.148 37.9151 181.148 38.0077 181.024 38.2548C180.314 39.6448 179.574 41.1583 178.771 42.8571C177.907 44.6795 176.456 45.9151 174.48 46.5946C174.042 46.7495 173.603 46.8397 173.129 46.9372L172.992 46.9654C172.943 46.9755 172.894 46.9857 172.844 46.9961C172.597 47.0579 172.32 47.1197 172.042 47.1815L171.548 47.305V51.9691L172.134 52H172.289ZM164.498 40.695C163.788 40.695 163.047 40.5714 162.306 40.3552C159.528 39.5521 157.707 37.6062 156.997 34.7336C156.843 34.1158 156.781 33.4363 156.781 32.5405V23.7683V20.6178H154.25V15.6757H156.781V6.31659H161.751V15.6448H168.758V20.6486H161.781V23.5212V32.9112C161.781 33.8069 162.09 34.5483 162.677 35.0734C163.232 35.5367 163.973 35.7529 164.776 35.6602C165.115 35.6293 165.516 35.444 165.918 35.2587L166.566 34.9807L166.936 34.8262L170.116 38.1622L169.653 38.5946C168.109 39.9846 166.381 40.695 164.498 40.695Z" fill="currentColor"></path></svg>
+      <i class="sep"></i>
+      <b>Paywall Audit</b><span>· Billdu</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+      <a class="nav-rep" data-rep target="_blank" rel="noopener">Read the report ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Paywall Audit · October 2026</div>
+    <div class="hero-logo"><img src="img/billdu-logo-white.png" alt="Billdu"></div>
+    <h1>Billdu</h1>
+    <p class="lede">Hey Billdu team, here are four ideas for your paywall, each backed by data from 78,000+ paywalls.</p>
+    <div class="meta">Prepared for the <b>Billdu</b> team by <b>Adapty</b> · based on your live paywall, your App Store listing and State of Paywalls 2026</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+    <div class="stats">
+      <div class="stat"><b>78,000+</b><span>paywalls in<br>State of Paywalls 2026</span></div>
+      <div class="stat"><b>4</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i"><span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p></div>
+      <div class="fb-i"><span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We signed up for Billdu like a new user, found your paywall, and held it up against the report.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, and State of Paywalls 2026 is what we learned from 78,000+ of their paywalls. We installed Billdu, signed in with Apple, named a business, and found <b>Choose a plan</b> under Settings → Subscription → Subscribe. Then we compared it with the report, element by element, and rebuilt it as a clickable screen in your design.</p>
+    <p class="body"><b>Benchmarks are for all categories in Europe</b>, your largest App Store region. The report covers eight categories and Business is not one of them, so we never borrow a neighbouring category’s numbers.</p>
+    <div class="notes">
+      <div class="note"><h4>We did not redesign your paywall</h4>
+        <p>The proposed screen is yours: your Monthly / Annually switch, your three-card carousel, your line illustrations, your Popular ribbon, your price buttons and your prices. We added a few lines you already have the facts for.</p></div>
+      <div class="note"><h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If you have already run one of these, tell us and we will go deeper on the rest.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">Scorecard</div>
+    <h2>Your paywall against the report.</h2>
+    <table class="sc">
+      <thead><tr><th>Element</th><th>Your paywall</th><th>Top paywalls (report)</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr><td>Plans</td><td data-l="Your paywall">Three tiers, each monthly or annual. A carousel shows one card at a time.</td><td data-l="Top paywalls">62% show two plans and 20% show three. 16% offer tiers, 13% have a monthly / annual switch.</td><td><span class="sig opp">Test opportunity</span></td></tr>
+        <tr><td>Pre-selected plan</td><td data-l="Your paywall">Annually, opening on Standard with the Popular ribbon.</td><td data-l="Top paywalls">67% pre-select annual. <span class="src">(43% in Adapty platform data.)</span></td><td><span class="sig def">Market default</span></td></tr>
+        <tr><td>Annual price framing</td><td data-l="Your paywall">Full annual price on the button, the monthly equivalent under it, and “Save 34%”.</td><td data-l="Top paywalls">62% show the full annual price; 41% use a “Save X%” badge.</td><td><span class="sig def">Market default</span></td></tr>
+        <tr><td>Trial</td><td data-l="Your paywall">Every new account gets 7 days of Premium. The paywall never mentions it.</td><td data-l="Top paywalls">66% offer a trial; 24% of trial paywalls show a timeline.</td><td><span class="sig opp">Test opportunity</span><a class="to" data-jumpidea="2">→ Idea 2</a></td></tr>
+        <tr><td>Reassurance near CTA</td><td data-l="Your paywall">None. The renewal text sits under the card, below the fold.</td><td data-l="Top paywalls">74% of trial paywalls have it, and 37% of paywalls without a trial.</td><td><span class="sig mis">Mismatch</span><a class="to" data-jumpidea="2">→ Idea 2</a></td></tr>
+        <tr><td>CTA</td><td data-l="Your paywall">The price button itself, one per card: “Annual - 119,99 €”.</td><td data-l="Top paywalls">56% lead with the trial; 9% use direct purchase words.</td><td><span class="sig def">Market default</span></td></tr>
+        <tr><td>Social proof</td><td data-l="Your paywall">“Join thousands of happy businesses!”, with no number.</td><td data-l="Top paywalls">27% show social proof.</td><td><span class="sig opp">Test opportunity</span><a class="to" data-jumpidea="3">→ Idea 3</a></td></tr>
+        <tr><td>Headline</td><td data-l="Your paywall">“CHOOSE A PLAN”, the same for everyone.</td><td data-l="Top paywalls">79% use six words or fewer; 2% use what the app knows about the user.</td><td><span class="sig opp">Test opportunity</span><a class="to" data-jumpidea="4">→ Idea 4</a></td></tr>
+        <tr><td>Close and after</td><td data-l="Your paywall">X shows at once and goes back to the Subscription page. No second offer.</td><td data-l="Top paywalls">90% of apps show the close button at once; 4% show another paywall after close. <span class="src">(Adapty data.)</span></td><td><span class="sig opp">Test opportunity</span><a class="to" data-jumpidea="1">→ Idea 1</a></td></tr>
+      </tbody>
+    </table>
+    <p class="sc-cap">Top paywalls = 100 top iOS paywalls reviewed in State of Paywalls 2026. These describe common practice, not what converts. Rows marked Adapty data come from the report’s platform data.</p>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The four ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one opens the prototype on the screen that shows it.</p>
+
+    <div class="ideas">
+      <div class="idea" data-jump="offer" data-idea="1" role="button" tabindex="0">
+        <span class="no">01</span>
+        <span>
+          <h3>Catch the close with one more offer</h3>
+          <p>Tap X on Choose a plan and you land back on the Subscription page, with a Subscribe button and nothing else. A “not now” ends the conversation. Offer your own Lite plan at 4,99 € a month instead, and remind them their trial is still running.</p>
+          <a class="rchip" data-rep target="_blank" rel="noopener"><span>📊</span><span><b>State of Paywalls 2026 ·</b> Only 4% of apps show another paywall after close. It converts at 0.88× the main one and beats it in 45% of apps.</span></a><br>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>Based on Adapty data</span></span>
+      </div>
+
+      <div class="idea" data-jump="paywall" data-idea="2" role="button" tabindex="0">
+        <span class="no">02</span>
+        <span>
+          <h3>Tell them where they are in their trial</h3>
+          <p>Every new account gets 7 days of Premium, but the paywall never says so. The end date sits on a different screen. Put “day 1 of 7” and the expiry date above the plans, and “Cancel anytime” under the button. You already say “cancel anytime” in your App Store listing.</p>
+          <a class="rchip" data-rep target="_blank" rel="noopener"><span>📊</span><span><b>State of Paywalls 2026 (Europe) ·</b> 18.4% of trials convert to paid, against 26.2% in the US.</span></a><br>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +12–36%</b><span>Observed in winning A/B tests</span></span>
+      </div>
+
+      <div class="idea" data-jump="paywall" data-idea="3" role="button" tabindex="0">
+        <span class="no">03</span>
+        <span>
+          <h3>Put your 4.8 stars next to the price</h3>
+          <p>Your banner says “Join thousands of happy businesses!” with no number behind it. You have 4.8 stars from 26,000+ ratings on the US App Store, and reviews like “Fast, easy to use, affordable.” Put both on the paywall, in the banner you already have.</p>
+          <a class="rchip" data-rep target="_blank" rel="noopener"><span>📊</span><span><b>State of Paywalls 2026 ·</b> Only 27% of top paywalls show social proof.</span></a><br>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–30%</b><span>Observed in winning A/B tests</span></span>
+      </div>
+
+      <div class="idea" data-jump="paywall" data-idea="4" role="button" tabindex="0">
+        <span class="no">04</span>
+        <span>
+          <h3>Write the headline for the person reading it</h3>
+          <p>Sign in with Apple can share a first name, and onboarding asks for the business name. The paywall still opens on “Choose a plan”, the same three words for everyone. Use what you know, plus their trial end date.</p>
+          <a class="rchip" data-rep target="_blank" rel="noopener"><span>📊</span><span><b>State of Paywalls 2026 ·</b> Only 2% of top paywalls use what the app knows about the user in the headline.</span></a><br>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +8–17%</b><span>Observed in winning A/B tests</span></span>
+      </div>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>All four work on the moment someone is already deciding: who the paywall speaks to, what it says about the trial they are in, what proves it, and what happens when they say no.</p>
+      </div>
+      <div class="nums">
+        <div><b><small>up to</small>+30%</b><span>Conversion</span></div>
+        <div><b><small>up to</small>+36%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="repcard">
+      <div class="t">
+        <svg class="adl" role="img" aria-label="Adapty" viewBox="0 0 197 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M34 0C25.1667 0 18 4.16667 18 13V40C26.8333 40 34 32.8333 34 24V0ZM0 24C0 32.8333 7.16667 40 16 40V8C7.16667 8 0 15.1667 0 24ZM84.76 40.7876C83.9266 40.7876 83.0623 40.695 82.1671 40.5405C79.1421 39.9537 76.6109 38.4093 74.6971 35.9382C70.6842 30.8108 71.1472 23.4595 75.7774 18.888C78.1851 16.5097 81.5498 15.1815 84.9761 15.2432C87.7851 15.305 90.4089 16.3243 92.5388 18.1158V4H97.4776V40.2934H92.5696V37.8224C90.2237 39.7992 87.5999 40.7876 84.76 40.7876ZM84.7291 20.3398C82.5993 20.3398 80.6237 21.1429 79.1421 22.6255C77.6913 24.0463 76.8887 25.9614 76.8887 27.9691C76.8887 30.0077 77.6604 31.8919 79.1112 33.3436C80.5928 34.8263 82.5684 35.6602 84.7291 35.6602C89.0198 35.6602 92.5079 32.2317 92.5079 28.0309C92.5387 23.8301 89.0507 20.3707 84.76 20.3398H84.7291ZM132.846 52H127.938V15.7066H132.846V18.0849C135.593 15.7066 138.557 15.2124 140.686 15.2432C144.298 15.2741 147.91 16.8494 150.132 19.3514C154.423 24.2008 154.546 31.4595 150.441 36.2471C148.033 39.0579 144.946 40.5714 141.273 40.7568C138.124 40.9112 135.315 39.9228 132.877 37.8224V52H132.846ZM140.686 20.3398C138.557 20.3398 136.55 21.1737 135.068 22.6564C133.648 24.1081 132.846 25.9923 132.846 28C132.846 32.2625 136.272 35.6293 140.625 35.6602C142.755 35.6911 144.73 34.8571 146.212 33.4054C147.663 31.9537 148.465 30.0386 148.465 28C148.465 23.7683 144.977 20.3398 140.686 20.3398ZM48.4162 37.6371C50.7313 39.6757 53.6946 40.7259 56.6271 40.7259C58.5718 40.7259 60.5164 40.2626 62.2759 39.2741C63.0785 38.8108 63.8502 38.2548 64.5601 37.6988V40.2934H69.5916V36.5251V28.0309C69.5608 26.0541 69.2212 24.3243 68.4804 22.749C65.9801 17.4054 60.7943 14.5637 54.9293 15.305C49.1879 16.0154 44.4033 21.0811 44.0329 26.7954C43.7551 31.2124 45.2368 34.8571 48.4162 37.6371ZM56.7505 20.1236C54.6515 20.1236 52.7068 20.9266 51.2252 22.4093C49.7435 23.8919 48.9409 25.8378 48.9409 27.9382C48.9409 32.3243 52.3982 35.7529 56.7814 35.7529C61.0721 35.7529 64.5602 32.2626 64.5602 27.9382C64.5602 23.6448 61.0721 20.1544 56.7505 20.1236ZM112.217 40.7259C109.285 40.7259 106.321 39.6757 104.006 37.6371C100.827 34.8571 99.3451 31.2124 99.6229 26.7954C99.9933 21.0811 104.778 16.0154 110.519 15.305C116.384 14.5637 121.57 17.4054 124.07 22.749C124.811 24.3243 125.151 26.0541 125.182 28.0309V36.5251V40.2934H120.15V37.6988C119.44 38.2548 118.668 38.8108 117.866 39.2741C116.106 40.2626 114.162 40.7259 112.217 40.7259ZM106.815 22.4093C108.297 20.9266 110.242 20.1236 112.341 20.1236C116.662 20.1544 120.15 23.6448 120.15 27.9382C120.15 32.2626 116.662 35.7529 112.371 35.7529C107.988 35.7529 104.531 32.3243 104.531 27.9382C104.531 25.8378 105.334 23.8919 106.815 22.4093ZM172.289 52H172.536H172.628C172.721 51.9691 172.814 51.9691 172.906 51.9691C173.019 51.9588 173.133 51.952 173.246 51.9451C173.472 51.9314 173.698 51.9176 173.925 51.8765C178.185 51.166 181.364 48.8185 183.309 44.8649L196.798 17.6834L192.322 15.4286L183.926 32.3243L175.468 15.4286L171.023 17.5907L171.394 18.3938C171.424 18.471 171.463 18.5483 171.502 18.6255C171.54 18.7027 171.579 18.7799 171.61 18.8571L172.937 21.5135C174.073 23.7743 175.221 26.0747 176.375 28.3881L176.375 28.3882L176.375 28.3888C177.917 31.4799 179.471 34.5941 181.024 37.668C181.148 37.9151 181.148 38.0077 181.024 38.2548C180.314 39.6448 179.574 41.1583 178.771 42.8571C177.907 44.6795 176.456 45.9151 174.48 46.5946C174.042 46.7495 173.603 46.8397 173.129 46.9372L172.992 46.9654C172.943 46.9755 172.894 46.9857 172.844 46.9961C172.597 47.0579 172.32 47.1197 172.042 47.1815L171.548 47.305V51.9691L172.134 52H172.289ZM164.498 40.695C163.788 40.695 163.047 40.5714 162.306 40.3552C159.528 39.5521 157.707 37.6062 156.997 34.7336C156.843 34.1158 156.781 33.4363 156.781 32.5405V23.7683V20.6178H154.25V15.6757H156.781V6.31659H161.751V15.6448H168.758V20.6486H161.781V23.5212V32.9112C161.781 33.8069 162.09 34.5483 162.677 35.0734C163.232 35.5367 163.973 35.7529 164.776 35.6602C165.115 35.6293 165.516 35.444 165.918 35.2587L166.566 34.9807L166.936 34.8262L170.116 38.1622L169.653 38.5946C168.109 39.9846 166.381 40.695 164.498 40.695Z" fill="currentColor"></path></svg>
+        <div class="k">The report behind these numbers</div>
+        <h3>State of Paywalls 2026</h3>
+        <p>78,000+ paywalls, 30,000+ apps, benchmarks by region and category.</p>
+      </div>
+      <a class="repbtn" data-rep target="_blank" rel="noopener">Get the full report ↗</a>
+    </div>
+
+    <div class="cta-row">
+      <div class="qr"><img src="img/qr.svg" alt="QR code for the prototype"><span><b>Open it on your phone</b>Scan to try the paywall in your hand.</span></div>
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are observed lifts from winning A/B tests in State of Paywalls 2026 and Adapty’s own data, not measured results for Billdu. Benchmarks: App Store data, Oct 2025–Sep 2026, all categories, Europe. Prices, ratings and quotes come from Billdu’s own listing and screens.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools" id="tools">
+      <div class="seg" id="segVar"><button data-var="a">Today</button><button data-var="b" class="on">Proposed</button></div>
+      <div class="seg" id="segTheme"><button data-theme="light">Light</button><button data-theme="dark" class="on">Dark</button></div>
+      <div class="seg" id="segLang"><button data-lang="en" class="on">EN</button><button data-lang="sk">SK</button><button data-lang="fr">FR</button></div>
+      <div class="seg" id="segPins"><button data-pins="1" class="on">Pins</button><button data-pins="0">Off</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="pop" id="pop"></div>
+        <div class="bd-toast" id="toast"></div>
+        <div class="screenwrap">
+
+<!-- PAYWALL (Today = var-a, Proposed = var-b) -->
+<section class="scr scr--pay var-b" data-id="paywall">
+  <div class="scr-top">
+    <div class="bd-nav">
+      <button class="bd-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <button class="pin" data-pin="close" style="left:36px;top:-6px">1</button>
+      <span class="bd-title" data-t="pw.title"></span>
+      <button class="bd-help" data-t="help"></button>
+    </div>
+  </div>
+  <div class="scr-body" id="payBody">
+    <div class="bd-banner pv-a"><span>🔥</span><span data-t="pw.banner"></span></div>
+    <div class="bd-banner pv-b"><span class="st">★★★★★</span><span data-th="pw.proof"></span><button class="pin" data-pin="proof" style="right:10px;top:7px">3</button></div>
+    <h2 class="bd-ph pv-b"><span id="payH"></span><button class="pin pin-in" data-pin="head">4</button></h2>
+    <div class="bd-trial pv-b" id="trialBox">
+      <div class="r"><b id="trialDay"></b><span id="trialEnd"></span></div>
+      <div class="bar"><i id="trialBar"></i></div>
+      <button class="pin" data-pin="trial" style="right:-8px;top:-10px">2</button>
+    </div>
+    <div class="bd-tog" id="tog"><button data-per="m" data-t="monthly"></button><button data-per="y" data-t="annually"></button></div>
+    <div class="bd-saveup" id="saveUp"><span data-t="saveup"></span><svg viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c18 2 34-2 44-16"/><path d="M38 6l8-1 1 8"/></svg></div>
+    <div class="bd-car" id="car"></div>
+    <div class="bd-dots" id="dots"><i></i><i></i><i></i></div>
+    <div class="bd-revs pv-b"><div class="st">★★★★★</div><p id="revText"></p><small id="revWho"></small></div>
+    <p class="bd-legal" data-t="legal"></p>
+    <div class="bd-links"><a data-t="restore"></a><a data-t="terms"></a><a data-t="privacy"></a></div>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION (where X lands today) -->
+<section class="scr scr--subs" data-id="subs">
+  <div class="scr-top">
+    <div class="bd-nav">
+      <button class="bd-back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="bd-title" data-t="sb.title"></span>
+      <button class="bd-help" data-t="help"></button>
+    </div>
+  </div>
+  <div class="scr-body" style="padding:0 6px">
+    <div class="bd-sbox"><small data-t="sb.plan"></small><div class="v"><span data-t="sb.prem"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div></div>
+    <div class="bd-sbox"><div class="two"><div><small data-t="sb.start"></small><div class="v" id="sbStart"></div></div><div><small data-t="sb.exp"></small><div class="v" id="sbEnd"></div></div></div></div>
+  </div>
+  <div class="scr-foot"><button class="bd-sub" id="subBtn" data-t="sb.subscribe"></button></div>
+</section>
+
+<!-- OFFER (second chance, on X) -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <div class="scr-top">
+    <div class="bd-nav">
+      <button class="bd-x" id="offClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <span class="bd-title" data-t="of.title"></span>
+      <button class="bd-help" data-t="help"></button>
+    </div>
+  </div>
+  <div class="scr-body">
+    <h2 class="bd-oh" id="offH"></h2>
+    <p class="bd-os" data-th="of.sub"></p>
+    <div class="bd-card" id="offCard">
+      <img class="ill" src="img/tier-lite.png" alt="">
+      <h4>LITE<button class="pin pin-in" data-pin="offprice">1</button></h4>
+      <div class="bd-feats" id="offFeats"></div>
+      <button class="bd-buy" id="offBuy"><span class="l1" id="offL1"></span><span class="l2"><span id="offL2"></span><span class="sv" id="offSv"></span></span></button>
+      <p class="bd-cancel" data-t="cancel"></p>
+      <button class="pin" data-pin="offer" style="right:12px;top:12px">1</button>
+    </div>
+    <p class="bd-otrial" id="offTrial"></p>
+  </div>
+  <div class="scr-foot"><button class="bd-ghost" id="offNo" data-t="of.no"></button></div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to either version. Tap a yellow pin for the report finding behind a change.</p>
+    <div class="qr"><img src="img/qr.svg" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the paywall in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+var REPORT='https://adapty.io/state-of-paywalls/?utm_source=paywall-audit&utm_medium=github-pages&utm_campaign=sop_2026&utm_content=billdu';
+document.querySelectorAll('[data-rep]').forEach(function(a){ a.href=REPORT; });
+
+/* the lead's first name: prototype only, from ?for= */
+var NAME=(function(){ var m=/[?&]for=([^&]*)/.exec(location.search), v='';
+  if(m){ try{ v=decodeURIComponent(m[1].replace(/\+/g,' ')); }catch(e){ v=''; } }
+  v=v.replace(/[^\p{L} \-]/gu,'').trim().slice(0,20);
+  return v || 'Matúš'; })();
+
+/* ================= copy, per language (phone screens only) ================= */
+var LANGS=['en','sk','fr'];
+var T={
+ 'pw.title':["CHOOSE A PLAN","VYBERTE SI PLÁN","CHOISISSEZ UNE OFFRE"],
+ 'help':["Help","Pomoc","Aide"],
+ 'pw.banner':["Join thousands of happy businesses!","Pridajte sa k tisíckam spokojných firiem!","Rejoignez des milliers d’entreprises satisfaites !"],
+ 'pw.proof':["<b>4.8</b> from 26,000+ App Store ratings","<b>4,8</b> · 26 000+ hodnotení","<b>4,8</b> · 26 000+ notes sur l’App Store"],
+ 'pw.h':["{n}, pick a plan before your trial ends","{n}, vyberte si plán, kým skončí skúšobná doba","{n}, choisissez votre offre avant la fin de l’essai"],
+ 'tr.day':["Premium trial · day {d} of 7","Premium na skúšku · deň {d}/7","Essai Premium · jour {d}/7"],
+ 'tr.end':["Expires {e}","Do {e}","Fin le {e}"],
+ 'monthly':["Monthly","Mesačne","Mensuel"],
+ 'annually':["Annually","Ročne","Annuel"],
+ 'saveup':["Save up to 38%","Ušetrite až 38 %","Jusqu’à −38 %"],
+ 'more':["Show extra features","Zobraziť ďalšie funkcie","Voir plus de fonctions"],
+ 'popular':["POPULAR","OBĽÚBENÝ","POPULAIRE"],
+ 'annual':["Annual - {p}","Ročne - {p}","Annuel - {p}"],
+ 'monthlyL':["Monthly","Mesačne","Mensuel"],
+ 'pm':["{p} / month","{p} / mesiac","{p} / mois"],
+ 'save':["Save {n}%","−{n} %","−{n} %"],
+ 'cancel':["Cancel anytime · billed by Apple","Zrušiť môžete kedykoľvek · platba cez Apple","Résiliable à tout moment · via Apple"],
+ 'legal':["Billdu subscriptions will be charged to your Apple account and will automatically renew unless auto-renew is turned off at least 24 hours prior to the end of your subscription period. Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal. You can manage your subscriptions in Account Settings in the App Store.",
+   "Predplatné Billdu sa účtuje na váš účet Apple a automaticky sa obnoví, ak automatické obnovenie nevypnete aspoň 24 hodín pred koncom obdobia. Obnovenie sa naúčtuje do 24 hodín pred koncom aktuálneho obdobia. Predplatné spravujete v nastaveniach účtu v App Store.",
+   "Les abonnements Billdu sont facturés sur votre compte Apple et se renouvellent automatiquement, sauf si le renouvellement est désactivé au moins 24 heures avant la fin de la période. Le renouvellement est facturé dans les 24 heures précédant la fin de la période en cours. Gérez vos abonnements dans les réglages de votre compte App Store."],
+ 'restore':["Restore subscription","Obnoviť predplatné","Restaurer l’abonnement"],
+ 'terms':["Terms of use","Podmienky používania","Conditions d’utilisation"],
+ 'privacy':["Data and privacy policy","Ochrana údajov a súkromia","Données et confidentialité"],
+ 'sb.title':["SUBSCRIPTION","PREDPLATNÉ","ABONNEMENT"],
+ 'sb.plan':["Plan","Plán","Offre"],
+ 'sb.prem':["PREMIUM (TRIAL)","PREMIUM (SKÚŠOBNÁ)","PREMIUM (ESSAI)"],
+ 'sb.start':["Start","Začiatok","Début"],
+ 'sb.exp':["Expires","Platnosť do","Expiration"],
+ 'sb.subscribe':["Subscribe","Predplatiť","S’abonner"],
+ 'of.title':["BEFORE YOU GO","EŠTE NEODCHÁDZAJTE","AVANT DE PARTIR"],
+ 'of.h':["{n}, start smaller?","{n}, začnete menším plánom?","{n}, commencer plus petit ?"],
+ 'of.sub':["Lite covers unlimited invoices for <b>4,99 € a month</b>, billed yearly.","Lite zvládne neobmedzené faktúry za <b>4,99 € mesačne</b>, pri ročnej platbe.","Lite inclut des factures illimitées pour <b>4,99 € par mois</b>, facturé à l’année."],
+ 'of.trial':["Your Premium trial still runs until {e}.","Vaša skúšobná doba Premium platí do {e}.","Votre essai Premium continue jusqu’au {e}."],
+ 'of.no':["Not now, keep my trial","Teraz nie, ponechať skúšobnú dobu","Pas maintenant, garder mon essai"],
+ 'toast':["Apple’s purchase sheet opens here","Tu sa otvorí nákup cez Apple","La fenêtre d’achat Apple s’ouvre ici"]
+};
+var TIERS=[
+ {k:'lite',n:'LITE',img:'img/tier-lite.png',y:'59,99 €',ym:'4,99 €',sv:38,m:'7,99 €',
+  f:[["Unlimited invoices, expenses","Neobmedzené faktúry, výdavky","Factures et dépenses illimitées"],["10 clients","10 klientov","10 clients"],["Accept online payments","Prijímajte online platby","Paiements en ligne"]]},
+ {k:'standard',n:'STANDARD',img:'img/tier-standard.png',y:'119,99 €',ym:'9,99 €',sv:34,m:'14,99 €',pop:true,
+  f:[["Unlimited invoices, estimates, expenses","Neobmedzené faktúry, ponuky, výdavky","Factures, devis et dépenses illimités"],["50 clients","50 klientov","50 clients"],["All Lite Features","Všetky funkcie Lite","Toutes les fonctions Lite"]]},
+ {k:'premium',n:'PREMIUM',img:'img/tier-premium.png',y:'239,99 €',ym:'19,99 €',sv:29,m:'27,99 €',
+  f:[["Unlimited invoices, estimates, expenses","Neobmedzené faktúry, ponuky, výdavky","Factures, devis et dépenses illimités"],["Unlimited clients","Neobmedzený počet klientov","Clients illimités"],["All Standard Features","Všetky funkcie Standard","Toutes les fonctions Standard"]]}
+];
+var REVIEWS=[["Fast, easy to use, affordable.","Lolloaja · App Store review"],["I use this every single day. Billdu makes everything a piece of cake.","JakeRoSlo · App Store review"]];
+var LOCALE={en:'en-GB',sk:'sk-SK',fr:'fr-FR'};
+var PINS={
+ close:{n:1,f:'Only 4% of apps show another paywall right after the first is closed. Those second-chance paywalls convert at 0.88× the main paywall and beat it in 45% of apps.',s:'Adapty data · all regions, all categories'},
+ offer:{n:1,f:'Only 4% of apps show a second-chance paywall. It converts at 0.88× the main paywall and beats it in 45% of apps.',s:'Adapty data · all regions, all categories'},
+ offprice:{n:1,f:'Second-chance paywalls usually cut the price; the typical discount is 38%. This one uses your existing Lite annual price instead of a new discount.',s:'Adapty data · 162 second-chance paywalls'},
+ trial:{n:2,f:'Europe, all categories: 18.4% of trials convert to paid, against 26.2% in the US. In winning tests, explaining the trial lifted ARPU 12–36%.',s:'Europe · all categories · App Store'},
+ cancel:{n:2,f:'74% of top paywalls with a trial put a reassurance line next to the button, such as “cancel anytime”.',s:'100 top iOS paywalls · patterns, not performance'},
+ proof:{n:3,f:'Only 27% of top paywalls show social proof. In winning A/B tests, social proof on the paywall lifted conversion 10–30%.',s:'Top 100 paywalls + Adapty A/B tests'},
+ head:{n:4,f:'Only 2% of top paywalls use what the app knows about the user in the headline. Onboarding personalization lifted conversion 8–17% in winning tests.',s:'Top 100 paywalls + Adapty A/B tests'}
+};
+
+/* ================= state ================= */
+var S0={lang:'en',theme:'dark',pins:true};
+function defaults(){ return {lang:S0.lang,theme:S0.theme,pins:S0.pins,variant:'b',per:'y',tier:1,rev:0}; }
+var S=defaults();
+function L(){ return LANGS.indexOf(S.lang); }
+function t(k,v){ var s=(T[k]||[k])[L()]; if(v) Object.keys(v).forEach(function(x){ s=s.split('{'+x+'}').join(v[x]); }); return s; }
+var TODAY=new Date(); TODAY.setHours(12,0,0,0);
+var TRIAL_END=new Date(TODAY.getTime()+7*864e5);
+function dShort(d){ return new Intl.DateTimeFormat(LOCALE[S.lang],{day:'numeric',month:'short'}).format(d); }
+function dTheirs(d){ return d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear()+'.'; }
+
+/* ================= builders ================= */
+var CHECK='<svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 7"/></svg>';
+var CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+function feats(f){ return f.map(function(x){ return '<div class="bd-f">'+CHECK+'<span>'+x[L()]+'</span></div>'; }).join(''); }
+function buildCar(){
+  var c=document.getElementById('car'); c.innerHTML='';
+  TIERS.forEach(function(tr,i){
+    var d=document.createElement('div'); d.className='bd-card'; d.dataset.i=i;
+    d.innerHTML=(tr.pop?'<span class="bd-rib">'+t('popular')+'</span>':'')
+      +'<img class="ill" src="'+tr.img+'" alt="">'
+      +'<h4>'+tr.n+'</h4><div class="bd-feats">'+feats(tr.f)+'</div>'
+      +'<button class="bd-more">'+t('more')+' '+CHEV+'</button>'
+      +'<button class="bd-buy" data-buy><span class="l1"></span><span class="l2"><span class="pm"></span><span class="sv"></span></span></button>'
+      +'<p class="bd-cancel pv-b">'+t('cancel')+(i===1?'<button class="pin pin-in" data-pin="cancel">2</button>':'')+'</p>';
+    c.appendChild(d);
+  });
+  c.querySelectorAll('[data-buy]').forEach(function(b){ b.addEventListener('click',buy); });
+  wirePins(c);
+}
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('.screenwrap [data-t]').forEach(function(el){ el.textContent=t(el.dataset.t); });
+  document.querySelectorAll('.screenwrap [data-th]').forEach(function(el){ el.innerHTML=t(el.dataset.th); });
+  buildCar();
+  document.getElementById('offFeats').innerHTML=feats(TIERS[0].f);
+}
+
+/* ================= everything downstream reads S ================= */
+function syncScreen(){
+  var A=S.variant==='a', P=scr.paywall;
+  P.classList.toggle('var-a',A); P.classList.toggle('var-b',!A);
+  document.querySelectorAll('#tog button').forEach(function(b){ b.classList.toggle('on',b.dataset.per===S.per); });
+  document.getElementById('saveUp').classList.toggle('off',S.per!=='m');
+  document.querySelectorAll('#car .bd-card').forEach(function(card,i){
+    var tr=TIERS[i];
+    card.querySelector('.l1').textContent = S.per==='y' ? t('annual',{p:tr.y}) : t('monthlyL');
+    card.querySelector('.pm').textContent = S.per==='y' ? t('pm',{p:tr.ym}) : t('pm',{p:tr.m});
+    var sv=card.querySelector('.sv'); sv.textContent=t('save',{n:tr.sv}); sv.classList.toggle('hidden',S.per!=='y');
+  });
+  document.querySelectorAll('#dots i').forEach(function(d,i){ d.classList.toggle('on',i===S.tier); });
+  document.getElementById('payH').textContent=t('pw.h',{n:NAME});
+  var day=1; document.getElementById('trialDay').textContent=t('tr.day',{d:day});
+  document.getElementById('trialEnd').textContent=t('tr.end',{e:dShort(TRIAL_END)});
+  document.getElementById('trialBar').style.width=(day/7*100)+'%';
+  document.getElementById('revText').textContent='“'+REVIEWS[S.rev][0]+'”';
+  document.getElementById('revWho').textContent=REVIEWS[S.rev][1];
+  document.getElementById('sbStart').textContent=dTheirs(TODAY);
+  document.getElementById('sbEnd').textContent=dTheirs(TRIAL_END);
+  var lt=TIERS[0];
+  document.getElementById('offH').textContent=t('of.h',{n:NAME});
+  document.getElementById('offL1').textContent=t('annual',{p:lt.y});
+  document.getElementById('offL2').textContent=t('pm',{p:lt.ym});
+  document.getElementById('offSv').textContent=t('save',{n:lt.sv});
+  document.getElementById('offTrial').textContent=t('of.trial',{e:dShort(TRIAL_END)});
+  document.getElementById('phoneIn').classList.toggle('nopins',!S.pins);
+}
+var car=document.getElementById('car'), carT=null;
+function carSoon(i){ carTo(i); setTimeout(function(){ carTo(i); },30); }
+function carTo(i,smooth){ var card=car.children[i]; if(!card) return;
+  var left=card.offsetLeft-(car.clientWidth-card.offsetWidth)/2;
+  car.scrollTo({left:left,behavior:smooth?'smooth':'auto'}); S.tier=i; syncScreen(); }
+car.addEventListener('scroll',function(){ clearTimeout(carT); carT=setTimeout(function(){
+  var mid=car.scrollLeft+car.clientWidth/2, best=0, bd=1e9;
+  [].forEach.call(car.children,function(c,i){ var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid); if(d<bd){bd=d;best=i;} });
+  if(best!==S.tier){ S.tier=best; syncScreen(); } },90); });
+document.querySelectorAll('#dots i').forEach(function(d,i){ d.addEventListener('click',function(){ carTo(i,true); }); });
+document.querySelectorAll('#tog button').forEach(function(b){ b.addEventListener('click',function(){ S.per=b.dataset.per; syncScreen(); }); });
+setInterval(function(){ if(!demo.on){ S.rev=(S.rev+1)%REVIEWS.length; var p=document.getElementById('revText'); if(p){ syncScreen(); } } },5000);
+
+var toastT=null;
+function buy(){ var el=document.getElementById('toast'); el.textContent=t('toast'); el.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove('on'); },1600); }
+
+/* ================= pins ================= */
+var pop=document.getElementById('pop'), phoneIn=document.getElementById('phoneIn');
+function showPin(btn){
+  var d=PINS[btn.dataset.pin]; if(!d) return;
+  pop.innerHTML='<div class="k">Idea '+d.n+' · State of Paywalls 2026</div><p>'+d.f+'</p><small>'+d.s+'</small><a href="'+REPORT+'" target="_blank" rel="noopener">State of Paywalls 2026 ↗</a>';
+  var r=btn.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  var x=(r.left-p.left+r.width/2)/z, y=(r.top-p.top+r.height)/z, W=phoneIn.offsetWidth;
+  pop.classList.add('on');
+  var h=pop.offsetHeight, left=Math.max(10,Math.min(W-260,x-125)), top=y+8;
+  if(top+h>phoneIn.offsetHeight-20) top=(r.top-p.top)/z-h-8;
+  pop.style.left=left+'px'; pop.style.top=top+'px';
+}
+function wirePins(root){ (root||document).querySelectorAll('.pin').forEach(function(b){
+  if(b.dataset.w) return; b.dataset.w=1;
+  b.addEventListener('click',function(e){ e.stopPropagation(); showPin(b); }); }); }
+wirePins(document.querySelector('.screenwrap'));
+phoneIn.addEventListener('click',function(e){ if(!e.target.closest('.pop')&&!e.target.closest('.pin')) pop.classList.remove('on'); });
+document.getElementById('payBody').addEventListener('scroll',function(){ pop.classList.remove('on'); });
+
+/* ================= router ================= */
+var LABEL={pa:'Paywall · Today',pb:'Paywall · Proposed',offer:'Offer'};
+var scr={}, hist=[], cur='paywall';
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+function chrome(){}
+function enter(id){ pop.classList.remove('on'); paintChips(); paintPanel(); }
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  var from=scr[cur], to=scr[id];
+  if(!opts.back) hist.push(cur);
+  from.classList.remove('is-active');
+  if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past');
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  cur=id; enter(id);
+}
+function back(){
+  if(!hist.length){ return; }
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; enter(prev);
+}
+function jump(id){
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist = id==='paywall' ? [] : ['paywall'];
+  if(id==='offer') scr.paywall.classList.add('is-active');
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id);
+  if(id==='paywall'){ document.getElementById('payBody').scrollTop=0; carSoon(S.tier); }
+}
+function chipState(){ if(cur==='offer') return 'offer'; if(cur==='paywall') return S.variant==='a'?'pa':'pb'; return ''; }
+var chipsBuilt=false;
+function paintChips(){
+  var c=document.getElementById('chips');
+  if(!chipsBuilt){ chipsBuilt=true;
+    ['pa','pb','offer'].forEach(function(k){ var b=document.createElement('button'); b.className='chip'+(k==='offer'?' offer':''); b.textContent=LABEL[k]; b.dataset.k=k;
+      b.onclick=function(){ stopDemo(); if(k==='pa') setVariant('a',true); else setVariant('b',true); S.tier=1; S.per='y'; jump(k==='offer'?'offer':'paywall'); };
+      c.appendChild(b); }); }
+  var st=chipState(); c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on',b.dataset.k===st); });
+}
+
+/* ================= wiring ================= */
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.getElementById('payClose').addEventListener('click',function(){ go(S.variant==='a'?'subs':'offer'); });
+document.getElementById('offClose').addEventListener('click',function(){ go('subs'); });
+document.getElementById('offNo').addEventListener('click',function(){ go('subs'); });
+document.getElementById('offBuy').addEventListener('click',buy);
+document.getElementById('subBtn').addEventListener('click',function(){ go('paywall'); carSoon(S.tier); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on', b.dataset[attr]===val); }); }
+function setLang(l){ S.lang=l; S0.lang=l; setSeg('segLang','lang',l); applyStatic(); syncScreen(); paintPanel(); carSoon(S.tier); }
+function setTheme(th){ S.theme=th; S0.theme=th; phoneIn.classList.toggle('light',th==='light'); setSeg('segTheme','theme',th); }
+function setVariant(v,quiet){ S.variant=v; setSeg('segVar','var',v);
+  if(!quiet){ if(v==='a' && cur==='offer'){ jump('paywall'); return; } syncScreen(); paintChips(); paintPanel(); } }
+function setPins(on){ S.pins=on; S0.pins=on; setSeg('segPins','pins',on?'1':'0'); syncScreen(); if(!on) pop.classList.remove('on'); }
+document.querySelectorAll('#segLang button').forEach(function(b){ b.addEventListener('click',function(){ stopDemo(); setLang(b.dataset.lang); }); });
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+document.querySelectorAll('#segVar button').forEach(function(b){ b.addEventListener('click',function(e){ if(e.isTrusted) stopDemo(); setVariant(b.dataset.var); }); });
+document.querySelectorAll('#segPins button').forEach(function(b){ b.addEventListener('click',function(){ setPins(b.dataset.pins==='1'); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(txt){ document.getElementById('demoTxt').textContent=txt; }
+function hl(key){ document.querySelectorAll('.pin').forEach(function(p){ p.classList.toggle('hl',p.dataset.pin===key); }); }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=typeof sel==='string'?document.querySelector(sel):sel; if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var keep={lang:S.lang,theme:S.theme,pins:S.pins}; S=defaults(); S.lang=keep.lang; S.theme=keep.theme; S.pins=keep.pins;
+  phoneIn.classList.add('demo'); hl('');
+  setVariant('a',true); applyStatic(); jump('paywall');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/280)+'%'; },200);
+  (async function(){
+    try{
+      cap('Today: Choose a plan, three cards in a carousel. It sits under Settings → Subscription.'); await pause(2600,tok);
+      cap('Tap X today and you are back on the Subscription page. Nothing else happens.');
+      await tap('#payClose',tok); await pause(2300,tok);
+      await tap('#subBtn',tok); await pause(600,tok);
+      cap('Proposed: the same screen, with their name, their trial and your rating.');
+      await tap('#segVar [data-var=b]',tok); await pause(1300,tok);
+      hl('head'); cap('Idea 4: the headline uses their name and talks about the trial they are in.'); await pause(2300,tok);
+      hl('trial'); cap('Idea 2: day 1 of 7 and the expiry date, above the plans you already sell.'); await pause(2300,tok);
+      hl('proof'); cap('Idea 3: your banner, now carrying 4.8 stars from 26,000+ ratings.'); await pause(2100,tok);
+      hl(''); cap('Your switch and carousel still work the way they do today.');
+      await tap('#tog [data-per=m]',tok); await pause(700,tok); await tap('#tog [data-per=y]',tok); await pause(300,tok);
+      await tap(document.querySelectorAll('#dots i')[2],tok); await pause(900,tok); await tap(document.querySelectorAll('#dots i')[1],tok); await pause(500,tok);
+      cap('Idea 1: X now opens one more offer, your own Lite plan at 4,99 € a month.');
+      await tap('#payClose',tok); await pause(1400,tok); hl('offer'); await pause(1700,tok);
+      hl(''); cap('That is the audit. Flip Today / Proposed above the phone to compare, and tap any pin for the finding behind it.');
+      finger.classList.remove('show'); await pause(2600,tok); stopDemo();
+    }catch(e){}
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  phoneIn.classList.remove('demo'); hl(''); document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + report chip + potential outcome ---- */
+var PANEL={
+ pa:{ctx:true,lab:'Context · your paywall today',t:'Choose a plan, as it ships',
+  kept:'Rebuilt from your live screen: the Monthly / Annually switch, the carousel opening on Standard, the Popular ribbon, your line illustrations, the price buttons and the renewal text. Tap X to see where it lands today.'},
+ pb:{ideas:[
+  {n:2,t:'Tell them where they are in their trial',
+   hyp:'Try putting “day 1 of 7” and the expiry date above the plans, with “Cancel anytime” under the button, <b>because the 7-day trial only shows up on the Subscription screen today</b>.',
+   rep:'<b>State of Paywalls 2026 (Europe) ·</b> 18.4% of trials convert to paid, against 26.2% in the US.',
+   lab:'Potential outcome · observed in winning A/B tests',out:'ARPU +12–36%'},
+  {n:3,t:'Put your 4.8 stars next to the price',
+   hyp:'Try your rating and a real review in place of “Join thousands of happy businesses!”, <b>because a number is easier to believe than “thousands”</b>.',
+   rep:'<b>State of Paywalls 2026 ·</b> Only 27% of top paywalls show social proof.',
+   lab:'Potential outcome · observed in winning A/B tests',out:'CR +10–30%'},
+  {n:4,t:'Write the headline for the person reading it',
+   hyp:'Try a headline with their first name and their trial in it, <b>because “Choose a plan” reads the same to every account</b>.',
+   rep:'<b>State of Paywalls 2026 ·</b> Only 2% of top paywalls personalize the headline.',
+   lab:'Potential outcome · observed in winning A/B tests',out:'CR +8–17%'}],
+  kept:'Your switch, your carousel and its three cards, your illustrations, orange checks, Popular ribbon, price buttons, “Save 34%” badges and prices. The rating banner is your own banner. Flip “Today” above the phone to compare.'},
+ subs:{ctx:true,lab:'Context · where X lands today',t:'Your Subscription screen',
+  kept:'Plan, start and expiry dates, and a Subscribe button that reopens the paywall. In the proposed flow people still end up here, after one more offer.'},
+ offer:{ideas:[
+  {n:1,t:'Catch the close with one more offer',
+   hyp:'Try one more offer when they tap X, <b>because today X goes straight back to the Subscription page and the decision ends there</b>. It is your own Lite annual price, 59,99 € or 4,99 € a month, so there is no new discount.',
+   rep:'<b>State of Paywalls 2026 ·</b> Only 4% of apps show another paywall after close. It converts at 0.88× the main one and beats it in 45% of apps.',
+   lab:'Potential outcome · based on Adapty data',out:'ARPU +10–15%'}],
+  kept:'Your Lite card from the carousel: the illustration, orange checks, blue price button and “Save 38%” badge. The headline uses their first name, which is idea 4 again.'}
+};
+function paintPanel(){
+  var key = cur==='paywall' ? (S.variant==='a'?'pa':'pb') : cur;
+  var d=PANEL[key]; if(!d) return; var h='';
+  if(d.ctx){
+    h+='<div class="pn-n ctx">'+d.lab+'</div><h3 class="pn-t">'+d.t+'</h3><div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    d.ideas.forEach(function(x,i){
+      if(i) h+='<div class="pn-sep"></div>';
+      h+='<div class="pn-n">Idea '+x.n+' of 4</div><h3 class="pn-t'+(d.ideas.length>1?' sm':'')+'">'+x.t+'</h3>'
+       +'<p class="pn-hyp">'+x.hyp+'</p>'
+       +'<a class="pn-rep" href="'+REPORT+'" target="_blank" rel="noopener"><span>📊</span><span>'+x.rep+'</span></a>'
+       +'<div class="pn-out"><div class="lab">'+x.lab+'</div><div class="v">'+x.out+'</div></div>';
+    });
+    h+='<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  if(S.lang!=='en') h+='<div class="pn-kept"><b>Language.</b> Screens are shown in '+(S.lang==='sk'?'Slovak':'French')+', translated by us. Store prices stay as published in euros; reviews stay verbatim in English.</div>';
+  h+='<div class="pn-foot">Impact ranges are observed lifts from winning A/B tests in State of Paywalls 2026 and Adapty’s own data, not measured lift for Billdu. Benchmarks: App Store data, all categories, Europe. Prices, rating and reviews come from your own screens and App Store listing.</div>';
+  document.getElementById('panel').innerHTML=h;
+}
+
+/* ---- views, jumps from the overview ---- */
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); });
+  window.scrollTo(0,0);
+  if(v==='proto' && cur==='paywall') carSoon(S.tier);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+function openIdea(el){ showView('proto'); setVariant('b',true); S.tier=1; S.per='y'; jump(el.dataset.jump); }
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){
+  b.addEventListener('click',function(e){ if(e.target.closest('a')) return; openIdea(b); });
+  b.addEventListener('keydown',function(e){ if(e.key==='Enter') openIdea(b); });
+});
+document.querySelectorAll('[data-jumpidea]').forEach(function(a){ a.addEventListener('click',function(){
+  var el=document.querySelector('.idea[data-idea="'+a.dataset.jumpidea+'"]'); el.scrollIntoView({behavior:'smooth',block:'center'}); }); });
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+applyStatic();
+scr.paywall.classList.add('is-active');
+syncScreen(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+carSoon(1);
+</script>
+</body>
+</html>
